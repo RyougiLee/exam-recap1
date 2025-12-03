@@ -8,10 +8,13 @@ const {
 } = require("../controllers/productControllers")
 
 const router = express.Router();
+const requireAuth = require("../middleware/requireAuth")
 
 router.get("/",getAllProducts)
-router.post("/",createProduct)
+
 router.get("/:productId",getProductById)
+router.use(requireAuth)
+router.post("/",createProduct)
 router.delete("/:productId",deleteProduct)
 router.put("/:productId",updateProduct)
 
