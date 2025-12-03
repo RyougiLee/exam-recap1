@@ -122,7 +122,23 @@ describe('Protected Products Routes ', () => {
   });
 
   it("should return 401 if no token is provided", async () => {
-
+    const newProduct = {
+      "title": "Vintage Denim Jacket",
+      "category": "Clothing",
+      "description": "Classic stone-wash denim jacket with copper buttons.",
+      "price": 60.00,
+      "stockQuantity": 30,
+      "supplier": {
+        "name": "RetroFit Apparel",
+        "contactEmail": "contact@retrofitapparel.com",
+        "contactPhone": "+1-555-016-6655",
+        "rating": 4.7
+      }
+    };
+    const response = await api
+        .post("/api/products")
+        .send(newProduct)
+        .expect(401);
   });
 
   // ---------------- DELETE ----------------
