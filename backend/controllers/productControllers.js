@@ -11,7 +11,13 @@ const getAllProducts = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
+
+  if(req.user.role !== "Admin" && req.user.role !== "Seller"){
+    return res.status(401).json({message: "wrong role"})
+  }
+
   try{
+    console.log(req.user)
     const newProduct = await Product.create({...req.body})
     res.status(201).json(newProduct)
   } catch (error) {
@@ -47,6 +53,10 @@ const deleteProduct = async (req,res) => {
     return res.status(400).json({message:"Invalid product ID"})
   }
 
+  if(req.user.role !== "Admin" && req.user.role !== "Seller"){
+    return res.status(401).json({message: "wrong role"})
+  }
+
   try{
     const deletedProduct = await Product.findByIdAndDelete(productId);
     if(deletedProduct){
@@ -61,6 +71,10 @@ const deleteProduct = async (req,res) => {
 
 const updateProduct = async (req,res) =>{
   const {productId} = req.params;
+
+  if(req.user.role !== "Admin" && req.user.role !== "Seller"){
+    return res.status(401).json({message: "wrong role"})
+  }
 
   if(!mongoose.Types.ObjectId.isValid(productId)){
     return res.status(400).json({message:"Invalid product ID"})
